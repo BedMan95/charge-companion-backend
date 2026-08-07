@@ -1,0 +1,18 @@
+name = "tuya-charger-companion-backend"
+main = "src/index.ts"
+compatibility_date = "2024-04-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "charger_companion"
+database_id = "your-database-id"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "charger-companion-images"
+
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+# Add env variables here if needed

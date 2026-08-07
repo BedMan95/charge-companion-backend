@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Cloudflare Wrangler
+.wrangler/
+.dev.vars
+
+# Build output
+dist/
+drizzle/
+.drizzle/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# SQLite databases (if local)
+*.sqlite
+*.sqlite3
+*.db

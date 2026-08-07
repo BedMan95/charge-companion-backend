@@ -1,0 +1,1 @@
+ALTER TABLE `charging_sessions` ADD `low_power_count` integer DEFAULT 0 NOT NULL;ALTER TABLE `charging_sessions` ADD `cost` real DEFAULT 0 NOT NULL;
