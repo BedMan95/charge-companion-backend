@@ -5,10 +5,18 @@ Backend terpusat serverless yang dibangun di atas Cloudflare Workers, melayani a
 ## 🎯 Fitur Utama
 - 🚀 **Serverless 24/7:** Berjalan di Cloudflare Workers.
 - 🕒 **Cron Trigger Terintegrasi:** Mengecek daya Watt dari Smart Plug secara otomatis (setiap menit) dan mematikan charger saat baterai penuh.
-- ⚡ **Kalkulasi Presisi (SLA Tapering):** Perhitungan ETA, Numerical Integration Charge Tapering, & Efisiensi Daya murni dihitung oleh Backend.
+- ⚡ **Kalkulasi Presisi (SLA Tapering):** Perhitungan ETA, Numerical Integration Charge Tapering, Biaya Rupiah, & Efisiensi Daya murni dihitung oleh Backend. Frontend cukup polling endpoint `/sessions/metrics` untuk update UI.
 - 🔐 **JWT Bearer Auth & R2 Storage:** Melindungi API dan mengelola upload gambar kendaraan.
 - 🔔 **FCM Push Notification:** Kirim notifikasi seketika daya berhasil diputus (Cut-Off).
-- 🎮 **Manual Tuya Control:** Mengatur hidup, mati, atau timer smart plug langsung via REST API.
+- 🎮 **Manual Tuya Control:** Mengatur hidup, mati, atau timer smart plug langsung via REST API (porting penuh dari API Next.js).
+
+## 🧑‍💻 Panduan Polling untuk Frontend (Flutter/Next.js)
+Karena backend ini Serverless dan *REST-based*, untuk mengupdate UI (ETA, baterai realtime) gunakan strategi Polling:
+1. Pasang Timer/Interval (contoh setiap 10 detik) yang berjalan **hanya saat aplikasi/dashboard terbuka**.
+2. Tarik daya Watt perangkat Tuya dari endpoint `GET /api/tuya/status/:userId`.
+3. Kirim Watt tersebut ke backend `GET /api/sessions/metrics/:id?watt=<hasil_watt>`.
+4. Render *response JSON* dari backend ke layar (UI).
+5. Ketika user menutup aplikasi, Cron di backend otomatis akan terus mengecek dan mengurus *cut-off* secara mandiri, jadi UI aman dimatikan.
 
 ## 🛠️ Stack Teknologi
 - **Runtime:** Cloudflare Workers (TypeScript)

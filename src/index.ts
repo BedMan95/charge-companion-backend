@@ -169,7 +169,8 @@ app.get('/doc', (c) => {
       },
       '/api/sessions/metrics/{id}': {
         get: {
-          summary: 'Get Live Charging ETA & Metrics',
+          summary: 'Get Live Charging ETA & Metrics (Polling Endpoint)',
+          description: 'Rekomendasi Frontend: Gunakan Interval Polling (5-10 detik) ketika aplikasi terbuka. Ambil data watt dari endpoint status tuya lalu kirim kesini.',
           parameters: [
             { name: 'id', in: 'path', required: true, schema: { type: 'integer', example: 1 } },
             { name: 'watt', in: 'query', required: false, schema: { type: 'number', example: 550 }, description: 'Daya realtime dari smart plug (Watt)' }

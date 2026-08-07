@@ -219,6 +219,8 @@ Digunakan untuk menarik seluruh data points (DP) status smart plug (relay ON/OFF
 ### Get Live Charging ETA & Metrics
 Digunakan oleh frontend/mobile untuk mendapatkan perhitungan realtime ETA, persentase, arus, dll. Nilai kembalian sudah dihitung secara presisi oleh backend menggunakan SLA Numerical Tapering Integration.
 
+> 💡 **Rekomendasi Frontend:** Karena API berbasis REST, gunakan teknik **Polling** (misal setiap 5-10 detik) saat user membuka aplikasi (Dashboard). Pertama panggil `/tuya/status/:userId` untuk mendapatkan `watt` saat ini, lalu lemparkan watt tersebut ke parameter endpoint ini untuk dirender ulang di UI. Tidak perlu polling saat aplikasi ditutup karena Backend Cron akan mengatur pemutusan otomatis (auto-cutoff).
+
 - **URL:** `/sessions/metrics/:id?watt=<nilai_watt_saat_ini>`
 - **Method:** `GET`
 - **Parameters:**
