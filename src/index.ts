@@ -14,6 +14,7 @@ import { tuyaRoutes } from './routes/tuya';
 
 type Bindings = {
   DB: D1Database;
+  BUCKET: R2Bucket;
   FIREBASE_SERVICE_ACCOUNT: string;
   API_TOKEN: string;
 };
@@ -231,6 +232,26 @@ app.route('/api/credentials', credentialsRoutes);
 app.route('/api/vehicles', vehiclesRoutes);
 app.route('/api/sessions', sessionsRoutes);
 app.route('/api/tuya', tuyaRoutes);
+
+// Endpoint untuk membaca gambar dari Cloudflare R2
+app.get('/api/images/:folder/:filename', async (c) => {
+  const folder = c.req.param('folder');
+  const filename = c.req.param('filename');
+  const path = `${folder}/${filename}`;
+
+  const object = await c.env.BUCKET.get(path);
+  if (!object) {
+    return c.notFound();
+  }
+
+  const headers = new Headers();
+  object.writeHttpMetadata(headers);
+  headers.set('etag', object.httpEtag);
+
+  return new Response(object.body, {
+    headers,
+  });
+});
 
 export default {
   fetch: app.fetch,
