@@ -216,6 +216,29 @@ Digunakan untuk menarik seluruh data points (DP) status smart plug (relay ON/OFF
 - **Method:** `GET`
 - **Response:** Array of charging sessions ordered by `startTime` desc.
 
+### Get Live Charging ETA & Metrics
+Digunakan oleh frontend/mobile untuk mendapatkan perhitungan realtime ETA, persentase, arus, dll. Nilai kembalian sudah dihitung secara presisi oleh backend menggunakan SLA Numerical Tapering Integration.
+
+- **URL:** `/sessions/metrics/:id?watt=<nilai_watt_saat_ini>`
+- **Method:** `GET`
+- **Parameters:**
+  - `:id` - ID Session yang sedang aktif
+  - `watt` (query) - Nilai daya yang didapat langsung dari smart plug via `/tuya/status/:userId`
+- **Response:**
+  ```json
+  {
+    "powerInKw": 0.55,
+    "actualPowerToBatteryKw": 0.467,
+    "timeToChargeHours": 2.45,
+    "totalCost": 1500,
+    "chargingEfficiency": 0.85,
+    "persenRealtime": 65.4,
+    "status": "ACTIVE",
+    "accumulatedEnergy": 850,
+    "cost": 1200
+  }
+  ```
+
 ### Start Charging Session
 Starts a new charging session.
 - **URL:** `/sessions/start`
