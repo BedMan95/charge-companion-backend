@@ -151,6 +151,14 @@ app.get('/doc', (c) => {
           security: [{ bearerAuth: [] }]
         }
       },
+      '/api/tuya/status/{userId}': {
+        get: {
+          summary: 'Get All Tuya Device Status',
+          parameters: [{ name: 'userId', in: 'path', required: true, schema: { type: 'string', example: 'admin-123' } }],
+          responses: { '200': { description: 'Tuya API Status Response' } },
+          security: [{ bearerAuth: [] }]
+        }
+      },
       '/api/sessions/history/{userId}': {
         get: {
           summary: 'Get Charging History',
