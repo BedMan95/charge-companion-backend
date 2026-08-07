@@ -187,6 +187,28 @@ Digunakan untuk menghidupkan, mematikan, atau mengatur timer (countdown) smart p
   }
   ```
 
+### Get All Tuya Device Status
+Digunakan untuk menarik seluruh data points (DP) status smart plug (relay ON/OFF, voltase, current power, dll) secara langsung dari API Tuya.
+
+- **URL:** `/tuya/status/:userId`
+- **Method:** `GET`
+- **Response:**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "result": [
+        { "code": "switch_1", "value": true },
+        { "code": "countdown_1", "value": 0 },
+        { "code": "cur_power", "value": 550 },
+        { "code": "cur_voltage", "value": 2200 }
+      ],
+      "success": true,
+      "t": 1690000000000
+    }
+  }
+  ```
+
 ## Charging Sessions
 
 ### Get Charging History
