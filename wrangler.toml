@@ -6,6 +6,7 @@ compatibility_date = "2024-04-01"
 binding = "DB"
 database_name = "charger-companion-db"
 database_id = "c51f1e9e-082f-4415-8f6d-d9ca575c8f2a"
+migrations_dir = "drizzle"
 
 [triggers]
 crons = ["* * * * *"]
