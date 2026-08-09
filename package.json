@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --port 8000 --ip 0.0.0.0",
     "deploy": "wrangler deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
