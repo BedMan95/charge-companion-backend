@@ -4,7 +4,7 @@ import { evModels, userVehicles } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
 // Tambahkan tipe BUCKET untuk Cloudflare R2
-const vehiclesRoutes = new Hono<{ Bindings: { DB: D1Database, BUCKET: R2Bucket } }>();
+const vehiclesRoutes = new Hono<{ Bindings: { DB: D1Database, KV: KVNamespace } }>();
 
 vehiclesRoutes.get('/models', async (c) => {
   const db = getDb(c.env);
@@ -35,8 +35,8 @@ vehiclesRoutes.post('/models', async (c) => {
     const fileName = `models/${id}-${Date.now()}.${fileExtension}`;
 
     // Simpan ke R2 Bucket
-    await c.env.BUCKET.put(fileName, await image.arrayBuffer(), {
-      httpMetadata: { contentType: image.type }
+    await c.env.KV.put(fileName, await image.arrayBuffer(), {
+      metadata: { contentType: image.type }
     });
 
     // Asumsi public URL bucket (Bisa disesuaikan dengan domain R2 public Anda)
@@ -76,8 +76,8 @@ vehiclesRoutes.post('/user', async (c) => {
     const fileExtension = image.name.split('.').pop();
     const fileName = `user-vehicles/${id}-${Date.now()}.${fileExtension}`;
 
-    await c.env.BUCKET.put(fileName, await image.arrayBuffer(), {
-      httpMetadata: { contentType: image.type }
+    await c.env.KV.put(fileName, await image.arrayBuffer(), {
+      metadata: { contentType: image.type }
     });
 
     imageUrl = `/api/images/${fileName}`;
@@ -111,8 +111,8 @@ vehiclesRoutes.put('/user/:id', async (c) => {
     const fileExtension = image.name.split('.').pop();
     const fileName = `user-vehicles/${id}-${Date.now()}.${fileExtension}`;
 
-    await c.env.BUCKET.put(fileName, await image.arrayBuffer(), {
-      httpMetadata: { contentType: image.type }
+    await c.env.KV.put(fileName, await image.arrayBuffer(), {
+      metadata: { contentType: image.type }
     });
 
     data.imageUrl = `/api/images/${fileName}`;

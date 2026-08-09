@@ -14,7 +14,7 @@ import { tuyaRoutes } from './routes/tuya';
 
 type Bindings = {
   DB: D1Database;
-  BUCKET: R2Bucket;
+  KV: KVNamespace;
   FIREBASE_SERVICE_ACCOUNT: string;
   API_TOKEN: string;
 };
@@ -239,17 +239,13 @@ app.get('/api/images/:folder/:filename', async (c) => {
   const filename = c.req.param('filename');
   const path = `${folder}/${filename}`;
 
-  const object = await c.env.BUCKET.get(path);
+  const object = await c.env.KV.get(path, 'arrayBuffer');
   if (!object) {
     return c.notFound();
   }
 
-  const headers = new Headers();
-  object.writeHttpMetadata(headers);
-  headers.set('etag', object.httpEtag);
-
-  return new Response(object.body, {
-    headers,
+  return new Response(object, {
+    headers: { 'Content-Type': 'image/jpeg' }, // Simplifikasi, asumsikan jpeg atau biarkan browser menebak
   });
 });
 
